@@ -1,7 +1,10 @@
 public class Card {
 
+    // rank = type (number, skip, draw)
     private String rank;
+    // suit = color
     private String suit;
+    // value = index of card
     private int value;
 
     public Card(String rank, String suit, int value) {
@@ -32,5 +35,11 @@ public class Card {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    // this is where each of the cards gets printed out so that the
+    // user can choose what card to play
+    public String toString() {
+        return rank + " of " + suit;
     }
 }
