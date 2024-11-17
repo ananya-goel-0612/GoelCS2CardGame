@@ -11,6 +11,7 @@ public class Player {
         //this.points = 0;
     }
 
+
     public Player(String name, ArrayList<Card> hand) {
         this.name = name;
         this.hand = hand;

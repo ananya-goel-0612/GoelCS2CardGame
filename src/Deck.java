@@ -23,6 +23,7 @@ public class Deck {
         return cardsLeft == 0;
     }
 
+
     public int getCardsLeft() {
         return cardsLeft;
     }

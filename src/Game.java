@@ -19,6 +19,7 @@ public class Game {
                 player.addCard(deck.deal());
             }
         }
+
     }
 
     // prints out the game instructions when the game is started
