@@ -39,9 +39,16 @@ public class Deck {
     public void shuffle() {
         // Collections has a shuffle method that we can use on cards
         // So this shuffles the deck
-        Collections.shuffle(cards);
         cardsLeft = cards.size();
-
+        // for i = last index of the deck down to 0
+        for (int i = cardsLeft; i > 0; i--) {
+            // Generate a random integer r (using Math.random) between 0 and i, inclusive
+            int r = (int) (Math.random() * cardsLeft);
+            // Exchange cards[i] and cards[r]
+            Card temp = cards.get(i);
+            cards.set(i, cards.get(r));
+            cards.set(r, temp);
+        }
     }
 }
 
