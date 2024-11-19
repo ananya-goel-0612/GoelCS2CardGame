@@ -26,20 +26,20 @@ public class Player {
         return hand;
     }
 
-    // don't need points in this game
-        public int getPoints() {
-            return points;
-        }
+    // Don't need points in this game
+    public int getPoints() {
+        return points;
+    }
 
-        public void addPoints(int points) {
-            this.points += points;
-        }
+    public void addPoints(int points) {
+        this.points += points;
+    }
 
     public void addCard(Card card) {
         hand.add(card);
     }
 
-    // don't need a to string for the player class
+    // Don't need a to string for the player class
         public String toString() {
             return name + " has " + points + " points\n" + name + "'s cards: " + hand;
         }

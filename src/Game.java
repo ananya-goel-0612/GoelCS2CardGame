@@ -6,14 +6,14 @@ public class Game {
     private ArrayList<Player> players;
 
     public Game(String[] playerNames, String[] ranks, String[] suits, int[] values) {
-        // initialize deck
+        // Initialize deck
         deck = new Deck(ranks, suits, values);
-        // get the players
+        // Get the players
         players = new ArrayList<>();
         for (String name : playerNames) {
             players.add(new Player(name));
         }
-        // deal initial cards (7 cards per player for uno)
+        // Deal initial cards (7 cards per player for uno)
         for (Player player : players) {
             for (int i = 0; i < 7; i++) {
                 player.addCard(deck.deal());
@@ -22,7 +22,7 @@ public class Game {
 
     }
 
-    // prints out the game instructions when the game is started
+    // Prints out the game instructions when the game is started
     public void printInstructions() {
         System.out.println("Welcome to UNO!");
         System.out.println("Players take turns matching the top card's color or number.");
@@ -32,16 +32,16 @@ public class Game {
 
     public void playGame() {
         printInstructions();
-        // create scanner to get user input for their choice
-        // of cards
+        // Create scanner to get user input for their choice
+        // Of cards
         Scanner scanner = new Scanner(System.in);
-        // get the starting top card for the deck
+        // Get the starting top card for the deck
         Card topCard = deck.deal();
         System.out.println("Starting card: " + topCard);
 
-        // basically the game loop runs until a player's hand is empty
-        // or if all the cards have been used
-        // which is when there will be a return statement
+        // Basically the game loop runs until a player's hand is empty
+        // Or if all the cards have been used
+        // Which is when there will be a return statement
         while (true) {
             for (Player player : players) {
                 System.out.println(player.getName() + "'s turn.");
@@ -52,10 +52,10 @@ public class Game {
 
                 System.out.println("--------------");
 
-                // do the game stuff here
-                // if they draw a card, draw a card
-                // otherwise check that their choice of card is valid
-                // also check if the game has been won --> if someone's hand is empty
+                // Do the game stuff here
+                // If they draw a card, draw a card
+                // Otherwise check that their choice of card is valid
+                // Also check if the game has been won --> if someone's hand is empty
 
                 if (player.getHand().isEmpty()) {
                     System.out.println(player.getName() + " wins!");
@@ -67,7 +67,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        // all the card values for uno
+        // All the card values for uno
         String[] ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "Skip", "Draw Two"};
         String[] suits = {"Red", "Green", "Blue", "Yellow"};
         int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 20};

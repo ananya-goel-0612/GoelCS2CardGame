@@ -6,16 +6,16 @@ public class Deck {
     private int cardsLeft;
 
     public Deck(String[] ranks, String[] suits, int[] values) {
-        // initialize cards
+        // Initialize cards
         cards = new ArrayList<Card>();
         for (String suit : suits) {
             for (int i = 0; i < ranks.length; i++) {
-                // add a new card with different ranks and values to each suit
+                // Add a new card with different ranks and values to each suit
                 cards.add(new Card(ranks[i], suit, values[i]));
             }
         }
         cardsLeft = cards.size();
-        // shuffle deck after you add everything to cards
+        // Shuffle deck after you add everything to cards
         shuffle();
     }
 
@@ -29,7 +29,7 @@ public class Deck {
     }
 
     public Card deal() {
-        // returns null if there's no cards left
+        // Returns null if there's no cards left
         if (isEmpty()) {
             return null;
         }
@@ -37,11 +37,10 @@ public class Deck {
     }
 
     public void shuffle() {
-        // collections has a shuffle method that we can use on cards
-        // so this shuffles the deck
+        // Collections has a shuffle method that we can use on cards
+        // So this shuffles the deck
         Collections.shuffle(cards);
         cardsLeft = cards.size();
-
 
     }
 }
