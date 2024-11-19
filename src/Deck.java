@@ -37,11 +37,12 @@ public class Deck {
     }
 
     public void shuffle() {
-        int size = getCardsLeft();
+        // Reset cardsLeft to the total amount of cards
+        cardsLeft = cards.size();
         // For i = last index of the deck down to 0
-        for (int i = size; i > 0; i--) {
+        for (int i = cards.size() - 1; i > 0; i--) {
             // Generate a random integer r (using Math.random) between 0 and i, inclusive
-            int r = (int) (Math.random() * i);
+            int r = (int) (Math.random() * (i + 1));
             // Exchange cards[i] and cards[r]
             Card temp = cards.get(i);
             cards.set(i, cards.get(r));
