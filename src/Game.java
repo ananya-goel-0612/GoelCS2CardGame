@@ -55,31 +55,37 @@ public class Game {
                 // Do the game stuff here
                 // If they choose to draw a card, draw a card and add it to their hand
                 if (input.equals("d")) {
+                    // Draw a card
                     Card drawnCard = deck.deal();
+                    // Print out the drawn card and add it to the player's hand
+                    // As long as the drawn card is not null
                     if (drawnCard != null) {
                         System.out.println("You drew: " + drawnCard);
                         player.addCard(drawnCard);
                     }
+                    // Otherwise print out a message saying that the deck is empty
                     else {
                         System.out.println("Deck is empty. Skipping draw.");
                     }
                 }
+                // Otherwise check that their choice of card is valid
                 else {
                     int index = getValidCardIndex(input, player.getHand());
+                    // Check that the input is a valid number
                     if (index == -1) {
                         System.out.println("Invalid input. Try again.");
                     }
+                    // If it was a valid move, set the top card equal to their played card
                     else if (isValidMove(player.getHand().get(index), topCard)) {
                         topCard = playCard(player, index);
                     }
+                    // Otherwise it was an invalid move
                     else {
                         System.out.println("Invalid move. Try again.");
                     }
                 }
 
-                // Otherwise check that their choice of card is valid
                 // Also check if the game has been won --> if someone's hand is empty
-
                 if (player.getHand().isEmpty()) {
                     System.out.println(player.getName() + " wins!");
                     scanner.close();
