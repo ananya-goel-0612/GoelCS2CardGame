@@ -53,7 +53,30 @@ public class Game {
                 System.out.println("--------------");
 
                 // Do the game stuff here
-                // If they draw a card, draw a card
+                // If they choose to draw a card, draw a card and add it to their hand
+                if (input.equals("d")) {
+                    Card drawnCard = deck.deal();
+                    if (drawnCard != null) {
+                        System.out.println("You drew: " + drawnCard);
+                        player.addCard(drawnCard);
+                    }
+                    else {
+                        System.out.println("Deck is empty. Skipping draw.");
+                    }
+                }
+                else {
+                    int index = getValidCardIndex(input, player.getHand());
+                    if (index == -1) {
+                        System.out.println("Invalid input. Try again.");
+                    }
+                    else if (isValidMove(player.getHand().get(index), topCard)) {
+                        topCard = playCard(player, index);
+                    }
+                    else {
+                        System.out.println("Invalid move. Try again.");
+                    }
+                }
+
                 // Otherwise check that their choice of card is valid
                 // Also check if the game has been won --> if someone's hand is empty
 
@@ -66,6 +89,39 @@ public class Game {
         }
     }
 
+    private int getValidCardIndex(String input, ArrayList<Card> hand) {
+        // Found this documentation for converting from strings to ints
+        // On Stack Overflow
+        // https://stackoverflow.com/questions/5585779/how-do-i-convert-a-string-to-an-int-in-java
+        try {
+            int index = Integer.parseInt(input);
+            if (index >= 0 && index < hand.size()) {
+                return index;
+            }
+        }
+        catch (NumberFormatException e) {
+            // This means that the input is not a valid number
+        }
+        // Return -1 if input is invalid
+        return -1;
+    }
+
+    // Checks if the numbers or colors of the top card and played card match
+    // Returns true or false
+    private boolean isValidMove(Card playedCard, Card topCard) {
+        return playedCard.getRank().equals(topCard.getRank()) || playedCard.getSuit().equals(topCard.getSuit());
+    }
+
+    // Removes a card from the player's hand once they've played it
+    // Prints out which card they played
+    // Returns the card that they played
+    private Card playCard(Player player, int index) {
+        Card playedCard = player.getHand().remove(index);
+        System.out.println("You played: " + playedCard);
+        return playedCard;
+    }
+
+    // Main function
     public static void main(String[] args) {
         // All the card values for uno
         String[] ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "Skip", "Draw Two"};
