@@ -45,7 +45,7 @@ public class Game {
         while (true) {
             for (Player player : players) {
                 System.out.println(player.getName() + "'s turn.");
-                System.out.println("Your hand: " + player.getHand());
+                System.out.println(player.getName() + "'s hand: " + player.getHand());
                 System.out.println("Top card: " + topCard);
                 System.out.println("Choose a card to play or draw a card (enter index or 'd'): ");
                 String input = scanner.nextLine();
@@ -73,7 +73,7 @@ public class Game {
                     int index = getValidCardIndex(input, player.getHand());
                     // Check that the input is a valid number
                     if (index == -1) {
-                        System.out.println("Invalid input. Try again.");
+                        System.out.println("Invalid input. Skipping turn.");
                     }
                     // If it was a valid move, set the top card equal to their played card
                     else if (isValidMove(player.getHand().get(index), topCard)) {
