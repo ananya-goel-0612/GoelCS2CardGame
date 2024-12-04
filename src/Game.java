@@ -19,7 +19,6 @@ public class Game {
                 player.addCard(deck.deal());
             }
         }
-
     }
 
     // Prints out the game instructions when the game is started
@@ -38,59 +37,67 @@ public class Game {
         // Get the starting top card for the deck
         Card topCard = deck.deal();
         System.out.println("Starting card: " + topCard);
+        int currentPlayerIndex = 0;
+        boolean skipNextTurn = false;
 
         // Basically the game loop runs until a player's hand is empty
         // Or if all the cards have been used
         // Which is when there will be a return statement
         while (true) {
-            for (Player player : players) {
-                System.out.println(player.getName() + "'s turn.");
-                System.out.println(player.getName() + "'s hand: " + player.getHand());
-                System.out.println("Top card: " + topCard);
-                System.out.println("Choose a card to play or draw a card (enter index or 'd'): ");
-                String input = scanner.nextLine();
+            Player currentPlayer = players.get(currentPlayerIndex);
+            if (skipNextTurn) {
+                System.out.println(currentPlayer.getName() + " is skipped!");
+                skipNextTurn = false;
+                currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                continue;
+            }
 
-                System.out.println("--------------");
+            System.out.println(currentPlayer.getName() + "'s turn.");
+            System.out.println(currentPlayer.getName() + "'s hand: " + currentPlayer.getHand());
+            System.out.println("Top card: " + topCard);
+            System.out.println("Choose a card to play or draw a card (enter index or 'd'): ");
+            String input = scanner.nextLine();
 
-                // Do the game stuff here
-                // If they choose to draw a card, draw a card and add it to their hand
-                if (input.equals("d")) {
-                    // Draw a card
-                    Card drawnCard = deck.deal();
-                    // Print out the drawn card and add it to the player's hand
-                    // As long as the drawn card is not null
-                    if (drawnCard != null) {
-                        System.out.println("You drew: " + drawnCard);
-                        player.addCard(drawnCard);
-                    }
-                    // Otherwise print out a message saying that the deck is empty
-                    else {
-                        System.out.println("Deck is empty. Skipping draw.");
-                    }
+            System.out.println("--------------");
+
+            // Do the game stuff here
+            // If they choose to draw a card, draw a card and add it to their hand
+            if (input.equals("d")) {
+                // Draw a card
+                Card drawnCard = deck.deal();
+                // Print out the drawn card and add it to the player's hand
+                // As long as the drawn card is not null
+                if (drawnCard != null) {
+                    System.out.println("You drew: " + drawnCard);
+                    currentPlayer.addCard(drawnCard);
                 }
-                // Otherwise check that their choice of card is valid
+                // Otherwise print out a message saying that the deck is empty
                 else {
-                    int index = getValidCardIndex(input, player.getHand());
-                    // Check that the input is a valid number
-                    if (index == -1) {
-                        System.out.println("Invalid input. Skipping turn.");
-                    }
-                    // If it was a valid move, set the top card equal to their played card
-                    else if (isValidMove(player.getHand().get(index), topCard)) {
-                        topCard = playCard(player, index);
-                    }
-                    // Otherwise it was an invalid move
-                    else {
-                        System.out.println("Invalid move. Try again.");
-                    }
+                    System.out.println("Deck is empty. Skipping draw.");
                 }
+            }
+            // Otherwise check that their choice of card is valid
+            else {
+                int index = getValidCardIndex(input, currentPlayer.getHand());
+                // Check that the input is a valid number
+                if (index == -1) {
+                    System.out.println("Invalid input. Skipping turn.");
+                }
+                // If it was a valid move, set the top card equal to their played card
+                else if (isValidMove(currentPlayer.getHand().get(index), topCard)) {
+                    topCard = playCard(currentPlayer, index);
+                }
+                // Otherwise it was an invalid move
+                else {
+                    System.out.println("Invalid move. Try again.");
+                }
+            }
 
-                // Also check if the game has been won --> if someone's hand is empty
-                if (player.getHand().isEmpty()) {
-                    System.out.println(player.getName() + " wins!");
-                    scanner.close();
-                    return;
-                }
+            // Also check if the game has been won --> if someone's hand is empty
+            if (currentPlayer.getHand().isEmpty()) {
+                System.out.println(currentPlayer.getName() + " wins!");
+                scanner.close();
+                return;
             }
         }
     }
@@ -115,7 +122,8 @@ public class Game {
     // Checks if the numbers or colors of the top card and played card match
     // Returns true or false
     private boolean isValidMove(Card playedCard, Card topCard) {
-        return playedCard.getRank().equals(topCard.getRank()) || playedCard.getSuit().equals(topCard.getSuit());
+        return playedCard.getRank().equals(topCard.getRank()) ||
+                playedCard.getSuit().equals(topCard.getSuit());
     }
 
     // Removes a card from the player's hand once they've played it
