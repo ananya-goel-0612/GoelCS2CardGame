@@ -24,6 +24,7 @@ public class Game {
     // Prints out the game instructions when the game is started
     public void printInstructions() {
         System.out.println("Welcome to UNO!");
+        System.out.println("This is a two-player game, with a User 1 and a User 2");
         System.out.println("Players take turns matching the top card's color or number.");
         System.out.println("Special cards like Skip and Draw Two will alter gameplay.");
         System.out.println("First to discard all cards wins!");
@@ -153,9 +154,13 @@ public class Game {
             if (index >= 0 && index < hand.size()) {
                 return index;
             }
+            else {
+                System.out.println("Index out of bounds. Valid range: 0 to " + (hand.size() - 1));
+            }
         }
         catch (NumberFormatException e) {
             // This means that the input is not a valid number
+            System.out.println("Invalid input. Please enter a number.");
         }
         // Return -1 if input is invalid
         return -1;
