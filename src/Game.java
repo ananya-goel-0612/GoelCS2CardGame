@@ -83,7 +83,7 @@ public class Game {
                 int index = getValidCardIndex(input, currentPlayer.getHand());
                 // Check that the input is a valid number
                 if (index == -1) {
-                    System.out.println("Invalid input. Try again.");
+                    System.out.println("Invalid input. Skipping turn.");
                 }
                 else {
                     Card playedCard = currentPlayer.getHand().get(index);
@@ -125,7 +125,7 @@ public class Game {
                     }
                     // If it reaches here, the move was invalid
                     else {
-                        System.out.println("Invalid move. Try again.");
+                        System.out.println("Invalid move. Skipping turn.");
                     }
                 }
             }
