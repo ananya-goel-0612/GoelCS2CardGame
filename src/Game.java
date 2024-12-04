@@ -52,17 +52,19 @@ public class Game {
                 continue;
             }
 
+            // Print out whose turn it is
             System.out.println(currentPlayer.getName() + "'s turn.");
-            System.out.println(currentPlayer.getName() + "'s hand: " + currentPlayer.getHand());
+            // Print out the current player's hand
+            System.out.println("Your hand: " + currentPlayer.getHand());
+            // Print out the top card
             System.out.println("Top card: " + topCard);
+            // Have them draw a card or play a card
             System.out.println("Choose a card to play or draw a card (enter index or 'd'): ");
             String input = scanner.nextLine();
 
-            System.out.println("--------------");
-
             // Do the game stuff here
             // If they choose to draw a card, draw a card and add it to their hand
-            if (input.equals("d")) {
+            if (input.equalsIgnoreCase("d")) {
                 // Draw a card
                 Card drawnCard = deck.deal();
                 // Print out the drawn card and add it to the player's hand
@@ -76,53 +78,71 @@ public class Game {
                     System.out.println("Deck is empty. Skipping draw.");
                 }
             }
-            // Otherwise check that their choice of card is valid
+            // Otherwise check that their choice of card is valid/special card
             else {
                 int index = getValidCardIndex(input, currentPlayer.getHand());
                 // Check that the input is a valid number
                 if (index == -1) {
-                    System.out.println("Invalid input. Skipping turn.");
+                    System.out.println("Invalid input. Try again.");
                 }
                 else {
                     Card playedCard = currentPlayer.getHand().get(index);
                     if (isValidMove(playedCard, topCard)) {
+                        // Remove the played card from their hand
                         currentPlayer.getHand().remove(index);
+                        // Set the top card equal to the played card
                         topCard = playedCard;
+                        // Tell the user what card they played
                         System.out.println("You played: " + playedCard);
 
                         // Handle special cards
+                        // If the skip card is played, set the boolean equal to true
                         if (playedCard.getRank().equals("Skip")) {
                             skipNextTurn = true;
-                        } else if (playedCard.getRank().equals("Draw Two")) {
+                        }
+                        // If they played their draw two card
+                        else if (playedCard.getRank().equals("Draw Two")) {
+                            // Find the index of the next player
                             int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
+                            // Create the next player
                             Player nextPlayer = players.get(nextPlayerIndex);
+                            // Add two cards to the next player's hand
                             for (int i = 0; i < 2; i++) {
                                 Card drawnCard = deck.deal();
                                 if (drawnCard != null) {
                                     nextPlayer.addCard(drawnCard);
-                                } else {
+                                }
+                                else {
                                     System.out.println("Deck is empty. Unable to draw more cards.");
                                     break;
                                 }
                             }
+                            // Print a message saying who drew two cards
                             System.out.println(nextPlayer.getName() + " drew two cards!");
-                            currentPlayerIndex = nextPlayerIndex; // Skip next player's turn
+                            // Skip that player's turn
+                            currentPlayerIndex = nextPlayerIndex;
                         }
-                    } else {
+                    }
+                    // If it reaches here, the move was invalid
+                    else {
                         System.out.println("Invalid move. Try again.");
                     }
+                }
             }
 
-            // Also check if the game has been won --> if someone's hand is empty
+            // Check for win condition
+            // If someone's hand is empty, then they won
             if (currentPlayer.getHand().isEmpty()) {
                 System.out.println(currentPlayer.getName() + " wins!");
                 scanner.close();
                 return;
             }
-                // Move to the next player
-                currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+
+            // Move to the next player
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
     }
+
 
     public int getValidCardIndex(String input, ArrayList<Card> hand) {
         // Found this documentation for converting from strings to ints
